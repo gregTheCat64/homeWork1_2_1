@@ -7,6 +7,7 @@ object WallService {
     fun add(post: Post): Post {
         id++
         post.id = id
+        println("присвоен айди: "+ post.id)
         posts += post
         return posts.last()
     }

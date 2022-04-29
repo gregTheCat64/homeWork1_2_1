@@ -20,11 +20,11 @@ class WallServiceTest {
 
         val result = post.id
 
-        assertEquals(1,post.id)
+        assertTrue(result != 0)
     }
 
     @org.junit.Test
-    fun update() {
+    fun updateExistingId() {
         val comments = Comments()
         val copyright = Copyright()
         val likes = Likes()
@@ -47,6 +47,33 @@ class WallServiceTest {
         val result =WallService.update(postUpdated)
 
         assertEquals(true, result)
+
+
+    }
+    @org.junit.Test
+    fun updateNotExistingId() {
+        val comments = Comments()
+        val copyright = Copyright()
+        val likes = Likes()
+        val reposts = Reposts()
+        val views = Views()
+
+        val placeHolder = PlaceHolder()
+        val donut = Donut(placeHolder = placeHolder)
+
+        val post = Post(comments = comments, copyright = copyright, likes = likes, reposts = reposts, views = views)
+        val post2 =Post(isFavourite = true, comments = comments, copyright = copyright, likes = likes, reposts = reposts, views = views)
+
+        //меняем избранное предыдущего поста на Фолс:
+        val postUpdated =Post(id = 0, isFavourite = false, comments = comments, copyright = copyright, likes = likes, reposts = reposts, views = views)
+
+
+        WallService.add(post)
+        WallService.add(post2)
+
+        val result =WallService.update(postUpdated)
+
+        assertEquals(false, result)
 
 
     }
