@@ -20,7 +20,7 @@ class WallServiceTest {
 
         val result = post.id
 
-        assertTrue(result == 0)
+        assertTrue(result != 0)
     }
 
     @org.junit.Test
