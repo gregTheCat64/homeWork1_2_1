@@ -88,8 +88,8 @@ fun main() {
     val post = Post(comments = comments, copyright = copyright, likes = likes, reposts = reposts, views = views)
     val post2 =Post(isFavourite = true, comments = comments, copyright = copyright, likes = likes, reposts = reposts, views = views)
 
-    //меняем избранное предыдущего поста на Фолс:
-    val postUpdated =Post(id = 2, isFavourite = false, comments = comments, copyright = copyright, likes = likes, reposts = reposts, views = views)
+    //меняем избранное предыдущего поста на Фолс, а френдсОнли на Тру:
+    val postUpdated =Post(id = 2,friendsOnly = true, isFavourite = false, comments = comments, copyright = copyright, likes = likes, reposts = reposts, views = views)
 
 
     WallService.add(post)
@@ -99,9 +99,9 @@ fun main() {
     WallService.update(postUpdated)
 
 
-    println(post)
-    println(post2)
-    println(postUpdated)
+    // println(post)
+    //println(post2)
+    //println(postUpdated)
 
 }
 
