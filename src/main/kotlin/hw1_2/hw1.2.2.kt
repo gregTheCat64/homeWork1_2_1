@@ -1,4 +1,4 @@
-
+package hw1_2
 fun main(){
     val amountOfLikes = 11
     val lastCharacter = amountOfLikes%10

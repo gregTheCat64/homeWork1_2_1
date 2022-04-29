@@ -1,5 +1,7 @@
+package hw1_2
+
 fun main() {
-    val previousPurchases= 10001//сумма предыдущих покупок
+    val previousPurchases = 10001//сумма предыдущих покупок
     val purchasePrice = 1000.0   //цена за покупаемый товар
 
     //уровень скидки для покупателя:
@@ -13,8 +15,9 @@ fun main() {
     val discountRegularSize = 0.01
 
     //проверяем первые два уровня скидок
-    var finalPrice:Double = if (previousPurchases in (discountFirstLevel + 1) until discountSecondLevel+1) (purchasePrice - discountFirstSize) else
-        if (previousPurchases> discountSecondLevel) (purchasePrice - purchasePrice*discountSecondSize) else purchasePrice
+    var finalPrice: Double =
+        if (previousPurchases in (discountFirstLevel + 1) until discountSecondLevel + 1) (purchasePrice - discountFirstSize) else
+            if (previousPurchases > discountSecondLevel) (purchasePrice - purchasePrice * discountSecondSize) else purchasePrice
 
     //проверяем на меломанство
     finalPrice = if (discountRegular) finalPrice - finalPrice * discountRegularSize else finalPrice

@@ -1,3 +1,5 @@
+package hw1_2
+
 fun main() {
     val amountInRubles = 500
     val amount = amountInRubles * 100
