@@ -3,6 +3,16 @@ package hw2_2
 object WallService {
     private var posts = emptyArray<Post>()
     private var id: Int = 0
+    private var attachments:Array<Attachment> = emptyArray()
+    private var idAttachment = 0
+
+    fun addAttachment(attachment: Attachment): Attachment{
+        idAttachment++
+        attachment.id = idAttachment
+        println("Присвоен айди аттачмента: ${attachment.id}")
+        attachments += attachment
+        return attachments.last()
+    }
 
     fun add(post: Post): Post {
         id++
@@ -25,5 +35,7 @@ object WallService {
         }
         return false
     }
+
+
 
 }

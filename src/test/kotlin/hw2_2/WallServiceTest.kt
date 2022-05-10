@@ -24,6 +24,16 @@ class WallServiceTest {
     }
 
     @org.junit.Test
+    fun addAttachment(){
+        val attachment = PhotoAttachment()
+        WallService.addAttachment(attachment)
+
+        val result = attachment.id
+        println(attachment.id)
+        assertTrue(result !=0)
+    }
+
+    @org.junit.Test
     fun updateExistingId() {
         val comments = Comments()
         val copyright = Copyright()
