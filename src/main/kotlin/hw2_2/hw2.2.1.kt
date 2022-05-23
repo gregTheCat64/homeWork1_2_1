@@ -36,7 +36,7 @@ data class Post(
 )
 
 data class Comments(
-    val count: Int = 0,
+    var count: Int = 0,
     val canPost: Boolean = true,
     val groupsCanPost: Boolean = true,
     val canClose: Boolean = false,
@@ -80,6 +80,20 @@ class PlaceHolder(
     val text: String = "Чтобы увидеть содержимое, оплатите подписку"
 )
 
+data class Comment(
+    var id: Int = 0,
+    val fromId: Int = 0,
+    val date: Int = 0,
+    val text: String? = null,
+    val donut: Donut? = null,
+    val replyToUser : Int = 0,
+    val replyToComment: Int =0,
+    val attachment: Attachment? = null,
+    val parentsStack: ArrayList<Int>? = null,
+//    val thread: Thread
+
+)
+
 //добавляем недостающие поля:
 
 data class PostSource(
@@ -96,6 +110,16 @@ data class Geo(
 )
 
 
+
+data class Thread(
+    val count: Int = 0,
+    val items: ArrayList<Comment>? = null,
+    val canPost: Boolean = true,
+    val showReplyButton: Boolean = true,
+    val groupsCanPost: Boolean = true
+)
+
+
 fun main() {
 
 
@@ -104,6 +128,7 @@ fun main() {
 
     val post = Post()
     val post2 = Post(isFavourite = true)
+    val post3 = Post()
 
     //меняем избранное предыдущего поста на Фолс, а френдсОнли на Тру:
     val postUpdated = Post(id = 2, friendsOnly = true, isFavourite = false)
@@ -112,9 +137,7 @@ fun main() {
     WallService.add(post)
     WallService.add(post2)
 
-
     WallService.update(postUpdated)
-
 
 
     val attachment = AudioAttachment(audio = Audio("Ария", "Беспечный ангел"))
@@ -127,11 +150,14 @@ fun main() {
     println(attachment1.id)
 
 
+    val comment = Comment(text = "какой то комментарий")
+    val comment2 = Comment(text = "еще какой то комментарий")
+    WallService.createComment(comment, post)
+    WallService.createComment(comment2, post)
 
+    println(comment)
+    println(comment2)
 
-    // println(post)
-    //println(post2)
-    //println(postUpdated)
 
 }
 

@@ -1,6 +1,7 @@
 package hw2_2
 
 import org.junit.Assert.*
+import org.junit.Test
 
 class WallServiceTest {
 
@@ -87,4 +88,68 @@ class WallServiceTest {
 
 
     }
+
+    @org.junit.Test
+    fun createRightComment(){
+        val comment = Comment(text = "какой то комментарий")
+        val  post = Post()
+        WallService.add(post)
+        WallService.createComment(comment, post)
+
+        val result = post.comments.count
+        println("комментариев в посте: $result")
+        assertTrue(result!=0)
+    }
+
+
+    @Test(expected = WallService.PostNotFoundException::class)
+    fun shouldThrow() {
+        // здесь код с вызовом функции, которая должна выкинуть PostNotFoundException
+        val comment = Comment(text = "какой то комментарий")
+        val  post = Post(id = 0)
+        WallService.createComment(comment, post)
+    }
+
+    @org.junit.Test
+    fun createRightReport(){
+        val comment = Comment(text = "какой то комментарий")
+        val  post = Post()
+        WallService.add(post)
+        WallService.createComment(comment, post)
+
+        val  result =  WallService.createReport(1, 5)
+        println("Жалоба добавлена успешно")
+        assertEquals(result, true)
+    }
+
+    @org.junit.Test
+    fun createReportWithWrongCommentId(){
+        val comment = Comment(text = "какой то комментарий")
+        val  post = Post()
+        WallService.add(post)
+
+       // WallService.createComment(comment, post)
+        //комментарий создан но не добавлен
+        //создаем репорт на несуществующий комментарий
+
+        val  result =  WallService.createReport(3, 5)
+        assertEquals(result, false)
+    }
+
+    @org.junit.Test
+    fun createReportWithWrongReason(){
+        val comment = Comment(text = "какой то комментарий")
+        val  post = Post()
+        WallService.add(post)
+        //  WallService.createComment(comment, post)
+
+
+        val  result =  WallService.createReport(1, 9)
+        assertEquals(result, false)
+    }
 }
+
+
+
+
+
