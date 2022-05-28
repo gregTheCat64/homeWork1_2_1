@@ -1,5 +1,6 @@
 package hw2_2
 
+import hw2_2.NoteService.lastCommentId
 import hw2_2.NoteService.lastNoteId
 import hw2_2.NoteService.noteComments
 import hw2_2.NoteService.notes
@@ -45,17 +46,17 @@ class NoteServiceTest {
         val result = notes.size
         println("размер массива: $result")
         assertTrue(result == 2)
-
     }
 
-    @Test(expected = NoteService.NotFoundException ::class)
+
+    @Test(expected = NoteService.NotFoundException::class)
     fun shouldThrow() {
-        // здесь код с вызовом функции, которая должна выкинуть PostNotFoundException
+
         notes.clear()
         lastNoteId = 0
         val note = Note(title = "Заметка 1", text = "бла бла")
         NoteService.add(note)
-       NoteService.delete((0))
+        NoteService.delete((0))
     }
 
     @org.junit.Test
@@ -74,17 +75,17 @@ class NoteServiceTest {
         var result = note.text
         println(result)
         println(notes)
-        assertTrue( result == "EDITED")
+        assertTrue(result == "EDITED")
     }
 
-    @Test(expected = NoteService.NotFoundException ::class)
+    @Test(expected = NoteService.NotFoundException::class)
     fun shouldThrowEditException() {
-         notes.clear()
+        notes.clear()
         lastNoteId = 0
         val note = Note(title = "Заметка 1", text = "бла бла")
         NoteService.add(note)
         println(note)
-        NoteService.edit(1,"lalala")
+        NoteService.edit(0, "lalala")
     }
 
     @org.junit.Test
@@ -115,44 +116,67 @@ class NoteServiceTest {
     }
 
     @org.junit.Test
-    fun addCommentCheck(){
+    fun addCommentCheck() {
         lastNoteId = 0
+        lastCommentId = 0
         notes.clear()
         noteComments.clear()
         val note = Note(title = "Заметка 1", text = "бла бла")
         val note2 = Note(title = "Заметка 2", text = "ля ля ля")
         NoteService.add(note)
         NoteService.add(note2)
-        val noteComment = NoteComment(noteId = 1, text="Комментарий к заметке 1")
+        val noteComment = NoteComment(noteId = 1, text = "Комментарий к заметке 1")
         NoteCommentService.add(noteComment)
         val result = noteComments.size
         assertTrue(result != 0)
     }
 
     @org.junit.Test
-    fun deleteCommentCheck(){
+    fun deleteCommentCheck() {
         lastNoteId = 0
+        lastCommentId = 0
         notes.clear()
         noteComments.clear()
         val note = Note(title = "Заметка 1", text = "бла бла")
         val note2 = Note(title = "Заметка 2", text = "ля ля ля")
         NoteService.add(note)
-        val noteComment = NoteComment(noteId = 1, text="Комментарий к заметке 1")
+        val noteComment = NoteComment(noteId = 1, text = "Комментарий к заметке 1")
         NoteCommentService.add(noteComment)
+        println(noteComment)
         NoteCommentService.delete(1)
+        println(noteComment)
         val result = noteComment.isDeleted
         assertTrue(result)
     }
 
     @org.junit.Test
-    fun restoreCommentCheck(){
+    fun deleteCommentsIfNoteisDeletedCheck() {
         lastNoteId = 0
+        lastCommentId = 0
+        notes.clear()
+        noteComments.clear()
+        val note = Note(title = "Заметка 1", text = "бла бла")
+        NoteService.add(note)
+        val noteComment = NoteComment(noteId = 1, text = "Комментарий 1 к заметке 1")
+        val noteComment2 = NoteComment(noteId = 1, text = "Комментарий 2 к заметке 1")
+        NoteCommentService.add(noteComment)
+        NoteCommentService.add(noteComment2)
+        NoteService.delete(1)
+        val result = noteComment.isDeleted
+        val result2 = noteComment2.isDeleted
+        assertTrue(result && result2)
+    }
+
+    @org.junit.Test
+    fun restoreCommentCheck() {
+        lastNoteId = 0
+        lastCommentId = 0
         notes.clear()
         noteComments.clear()
         val note = Note(title = "Заметка 1", text = "бла бла")
         val note2 = Note(title = "Заметка 2", text = "ля ля ля")
         NoteService.add(note)
-        val noteComment = NoteComment(noteId = 1, text="Комментарий к заметке 1")
+        val noteComment = NoteComment(noteId = 1, text = "Комментарий к заметке 1")
         NoteCommentService.add(noteComment)
         NoteCommentService.delete(1)
         NoteCommentService.restore(1)
@@ -160,15 +184,16 @@ class NoteServiceTest {
         assertTrue(!result)
     }
 
-    @Test(expected = NoteCommentService.NotFoundCommentException ::class)
-    fun shouldThrowRestoreWrong(){
+    @Test(expected = NoteCommentService.NotFoundCommentException::class)
+    fun shouldThrowRestoreWrong() {
         lastNoteId = 0
+        lastCommentId = 0
         notes.clear()
         noteComments.clear()
         val note = Note(title = "Заметка 1", text = "бла бла")
         val note2 = Note(title = "Заметка 2", text = "ля ля ля")
         NoteService.add(note)
-        val noteComment = NoteComment(noteId = 1, text="Комментарий к заметке 1")
+        val noteComment = NoteComment(noteId = 1, text = "Комментарий к заметке 1")
         NoteCommentService.add(noteComment)
         NoteCommentService.delete(1)
         NoteCommentService.restore(0)
