@@ -13,13 +13,16 @@ interface CrudService<E> {
 
 }
 
-class NotFoundException(message: String = "Запись не найдена") : RuntimeException(message)
+
 
 object NoteService : CrudService<Note> {
     val notes = mutableListOf<Note>()
     val noteComments = mutableListOf<NoteComment>()
     var lastNoteId: Long = 0
     var lastCommentId: Long = 0
+
+    class NotFoundException(message: String = "Запись не найдена") : RuntimeException(message)
+
     override fun add(entity: Note): Note {
         entity.id = ++lastNoteId
         notes.add(entity)
@@ -27,24 +30,29 @@ object NoteService : CrudService<Note> {
     }
 
     override fun delete(id: Long) {
-        for (note in notes) {
-            if (id == note.id) {
-                notes.remove(note)
-            }
-        }
         for (comment in noteComments){
             if (id == comment.noteId){
                 comment.isDeleted = true
             }
         }
+        for (note in notes) {
+            if (id == note.id) {
+                notes.remove(note)
+                return
+            }
+        }
+        throw NotFoundException()
+
     }
 
     override fun edit(id: Long,  text: String) {
         for (note in notes) {
             if (id == note.id) {
                 note.text = text
+                return
             }
         }
+        throw NotFoundException()
     }
 
     override fun read(): List<Note> {
@@ -63,7 +71,11 @@ object NoteService : CrudService<Note> {
 
 }
 
+//добавляем комментарии к заметке:
+
 object NoteCommentService:CrudService<NoteComment> {
+    class NotFoundCommentException(message: String = "Комментарий не найден") : RuntimeException(message)
+
     override fun add(entity: NoteComment): NoteComment {
         entity.id = ++ lastCommentId
 
@@ -74,6 +86,7 @@ object NoteCommentService:CrudService<NoteComment> {
         }
         return noteComments.last()
     }
+
 
     override fun delete(id: Long) {
         for (comment in noteComments){
@@ -91,7 +104,7 @@ object NoteCommentService:CrudService<NoteComment> {
                 return
             }
         }
-        throw NotFoundException()
+        throw NotFoundCommentException()
     }
 
     override fun read(): List<NoteComment> {
@@ -110,7 +123,7 @@ object NoteCommentService:CrudService<NoteComment> {
                 return comment
             }
         }
-        throw NotFoundException()
+        throw NotFoundCommentException()
     }
 
     fun restore(id: Long) {
@@ -120,6 +133,6 @@ object NoteCommentService:CrudService<NoteComment> {
                 return
             }
         }
-        throw NotFoundException()
+        throw NotFoundCommentException()
     }
 }

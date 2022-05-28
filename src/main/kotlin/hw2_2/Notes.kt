@@ -13,7 +13,7 @@ open class Note(
     }
 }
 
-class NoteComment(var noteId: Long = 0, var isDeleted: Boolean = false,text: String):Note(text = text){
+class NoteComment(var noteId: Long, var isDeleted: Boolean = false,text: String):Note(text = text){
     override fun toString(): String {
         return "NoteComment(noteId=$noteId, isDeleted=$isDeleted id=$id, text = $text)"
     }
