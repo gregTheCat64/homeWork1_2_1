@@ -4,6 +4,7 @@ import hw2_2.NoteService.lastCommentId
 import hw2_2.NoteService.noteComments
 import hw2_2.NoteService.notes
 
+//интерфейс для службы
 interface CrudService<E> {
     fun add(entity: E): E
     fun delete(id: Long)
@@ -13,8 +14,7 @@ interface CrudService<E> {
 
 }
 
-
-
+//создаем синглтон Заметки с методами. Унаследуется от интерфейса КРУД
 object NoteService : CrudService<Note> {
     val notes = mutableListOf<Note>()
     val noteComments = mutableListOf<NoteComment>()
@@ -30,21 +30,25 @@ object NoteService : CrudService<Note> {
     }
 
     override fun delete(id: Long) {
+        //пробегаемся сначала по комментариям к заметке. Если находим, исправляем параметр - удалено
         for (comment in noteComments){
             if (id == comment.noteId){
                 comment.isDeleted = true
             }
         }
+        //теперь пробегаемся по заметкам. Физически удаляем найденный
         for (note in notes) {
             if (id == note.id) {
                 notes.remove(note)
                 return
             }
         }
+        //если не найден - кидаем эксепшн
         throw NotFoundException()
 
     }
 
+    //редактируем заметку по айди, с параметром нового текста
     override fun edit(id: Long,  text: String) {
         for (note in notes) {
             if (id == note.id) {
@@ -108,6 +112,7 @@ object NoteCommentService:CrudService<NoteComment> {
     }
 
     override fun read(): List<NoteComment> {
+        //здесь создаем новый массив неудаленных заметок:
         val commentsToShow = mutableListOf<NoteComment>()
         for (comment in noteComments){
             if (!comment.isDeleted){
