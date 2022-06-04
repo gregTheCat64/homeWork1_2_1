@@ -11,8 +11,8 @@ class ChatServiceTest {
 
     @Test
     fun createMessage() {
-        var user = User(0,"Вася")
-        var user1 = User(1,"Маша")
+        val user = User(0,"Вася")
+        val user1 = User(1,"Маша")
         ChatService.createMessage(user, user1, "Привет!")
         ChatService.createMessage(user1,user, "Привет, Вася")
         assertTrue(lastChatId == 1)
@@ -23,8 +23,8 @@ class ChatServiceTest {
         lastMessageId = 0
         lastChatId = 0
         chats.clear()
-        var user = User(0,"Вася")
-        var user1 = User(1,"Маша")
+        val user = User(0,"Вася")
+        val user1 = User(1,"Маша")
         ChatService.createMessage(user, user1, "Привет!")
 
         ChatService.deleteMessage(1)
@@ -37,8 +37,8 @@ class ChatServiceTest {
         lastMessageId = 0
         lastChatId = 0
         chats.clear()
-        var user = User(0,"Вася")
-        var user1 = User(1,"Маша")
+        val user = User(0,"Вася")
+        val user1 = User(1,"Маша")
         ChatService.createMessage(user, user1, "Привет!")
 
         ChatService.getChats(0)
@@ -51,8 +51,8 @@ class ChatServiceTest {
         lastMessageId = 0
         lastChatId = 0
         chats.clear()
-        var user = User(0,"Вася")
-        var user1 = User(1,"Маша")
+        val user = User(0,"Вася")
+        val user1 = User(1,"Маша")
         ChatService.createMessage(user, user1, "Привет!")
         ChatService.getUnreadChatsCount(0)
         assertTrue(chats.size == 1)
@@ -64,10 +64,10 @@ class ChatServiceTest {
         lastMessageId = 0
         lastChatId = 0
         chats.clear()
-        var user = User(0,"Вася")
-        var user1 = User(1,"Маша")
-        var user2 = User(2,"Костя")
-        var user4 = User(3,"Енакентий")
+        val user = User(0,"Вася")
+        val user1 = User(1,"Маша")
+        val user2 = User(2,"Костя")
+        val user4 = User(3,"Енакентий")
 
         ChatService.createMessage(user, user1, "Привет!")
         ChatService.createMessage(user1,user, "Привет, Вася")
@@ -75,10 +75,10 @@ class ChatServiceTest {
         ChatService.createMessage(user4, user1, "Маша, привет!")
         ChatService.createMessage(user, user1, "Как дела?")
 
-        val result = ChatService.getChat(1, 1, 3).size
+        val result = ChatService.getChat(1, 1, 3)
 
 
-        assertTrue(result == 3)
+        assertTrue(result.isNotEmpty())
     }
 
     @Test
@@ -86,8 +86,8 @@ class ChatServiceTest {
         lastMessageId = 0
         lastChatId = 0
         chats.clear()
-        var user = User(0,"Вася")
-        var user1 = User(1,"Маша")
+        val user = User(0,"Вася")
+        val user1 = User(1,"Маша")
 
         ChatService.createMessage(user, user1, "Привет!")
         ChatService.createMessage(user1,user, "Привет, Вася")
